@@ -1,27 +1,31 @@
+import java.util.Optional;
+
 public class Main {
   public static void main(String[] args) {
     User user = new User("Kathryn");
-
-    // Potential Null Pointer Exception!
-    String city = user.getAddress().getCity();
-    System.out.println("City: " + city);
+    Address userAddress = new Address("New York City");
+    user.setAddress(userAddress);
+    
+    user.getAddress().ifPresent(address -> {
+      System.out.println("City: " + address.getCity());
+    });
   }
 }
 
 class User {
   private String name;
-  private Address address;
+  private Optional<Address> address;
 
   public User(String name) {
     this.name = name;
   }
 
-  public Address getAddress() {
+  public Optional<Address> getAddress() {
     return this.address;
   }
 
   public void setAddress(Address address) {
-    this.address = address;
+    this.address = Optional.ofNullable(address);
   }
 }
 
